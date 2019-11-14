@@ -29,7 +29,7 @@ To start at the beginning of any given section, just `checkout` the branch with 
 > Starting branch: [Chapter2](https://github.com/falcon-coder/graphql-tutorial/tree/Chapter2)
 
 * [Get Weather Station](#get-weather-station)
-* [Get Measurements of Weather Station](#get-weather-measurements)
+* [Get Measurements of Weather Station](#get-measurements-of-weather-station)
 * [Limits](#limits)
 
 ### Chapter 3
@@ -334,7 +334,7 @@ async weatherStation(args) {
 and add a resolver for the `weatherStation` query
 
 ```js
-songs: (_, args, ctx) => {
+weatherStation: (_, args, ctx) => {
     return ctx.connectors.weatherStations.weatherStation(args);
 },
 ```
