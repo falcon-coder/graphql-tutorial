@@ -1,5 +1,7 @@
 type Query {
     weatherStationsList: [WeatherStation]
+    weatherStation(station_id: String): WeatherStation
+    measurementsList(station_id: String, type: String, limit: Int, from: Float, to: Float) : [Measurement]
 }
 
 type WeatherStation {
@@ -9,4 +11,18 @@ type WeatherStation {
     latitude: Float
     altitude: Int
     rank: Int
+}
+
+type Measurement {
+    type: String
+    date: String
+    station_id: String
+    temp : Temp
+}
+
+type Temp {
+    max: Float
+    min: Float
+    average: Float
+    weight: Int
 }

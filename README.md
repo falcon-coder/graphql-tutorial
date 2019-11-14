@@ -336,7 +336,7 @@ and add a resolver for the `weatherStation` query
 ```js
 weatherStation: (_, args, ctx) => {
     return ctx.connectors.weatherStations.weatherStation(args);
-},
+}
 ```
 
 Open the [playground](http://localhost:4000) again and send a query for `weatherStation`
@@ -362,6 +362,25 @@ Add a new `Query` for `measurementsList`
 
 ```gql
 measurementsList(station_id: String, type: String, limit: Int, from: Float, to: Float) : [Measurement]
+```
+
+We need to define what an `Measurement` is, so add the `Measurement` type to your schema.graphql
+`Temperature` is also one of the type defined inside Measurement
+
+```gql
+type Measurement {
+    type: String
+    date: String
+    station_id: String
+    temp : Temp
+}
+
+type Temp {
+    max: Float
+    min: Float
+    average: Float
+    weight: Int
+}
 ```
 
 Let's add another method to the `WeatherStations` connector
