@@ -24,6 +24,18 @@ To start at the beginning of any given section, just `checkout` the branch with 
 * [Let's get some Context](#lets-get-some-context)
 * [Creating your first Connector](#creating-your-first-connector)
 
+### Chapter 2
+
+> Starting branch: [Chapter2](https://github.com/falcon-coder/graphql-tutorial/tree/Chapter2)
+
+* [Get Weather Station](#get-weather-station)
+* [Get Measurements of Weather Station](#get-weather-measurements)
+* [Limits](#limits)
+
+### Chapter 3
+
+* [Graph Relationships](#graph-relationships)
+
 ## Setup
 
 Clone the project & `cd` into it
@@ -244,7 +256,7 @@ const request = require('request-promise');
 And let's add our first method to the `iTunes` class
 
 ```js
-async getWeatherStationsList() {
+async weatherStationsList() {
         const options = {
             uri: 'http://api.openweathermap.org/data/3.0/stations',
             method: 'GET',
@@ -289,3 +301,132 @@ You can open the [playground](http://localhost:4000) again and send a query for 
 ```
 
 It works! 😎
+
+## Get Weather Station
+
+Add a new `Query` for `weatherStation`
+
+```gql
+weatherStation(station_id: String): WeatherStation
+```
+
+Let's add another method to the `WeatherStations` connector
+
+```js
+async weatherStation(args) {
+    const options = {
+        uri: 'http://api.openweathermap.org/data/3.0/stations/' + args.station_id,
+        method: 'GET',
+        qs: {
+            appid: 'weather appid'
+        },
+        json: true,
+    };
+
+    const station = await request(options);
+    if (!station) {
+        return null;
+    }
+    return station;
+};
+```
+
+and add a resolver for the `weatherStation` query
+
+```js
+songs: (_, args, ctx) => {
+    return ctx.connectors.weatherStations.weatherStation(args);
+},
+```
+
+Open the [playground](http://localhost:4000) again and send a query for `weatherStation`
+
+```gql
+{
+  weatherStation(station_id: "your station_id") {
+    id
+    name
+    longitude
+    latitude
+    altitude
+    rank
+  }
+}
+```
+
+But that's more data than our clients need!
+
+## Get Measurements of Weather Station
+
+Add a new `Query` for `measurementsList`
+
+```gql
+measurementsList(station_id: String, type: String, limit: Int, from: Float, to: Float) : [Measurement]
+```
+
+Let's add another method to the `WeatherStations` connector
+
+```js
+async measurementsList(args) {
+    const options = {
+        uri: 'http://api.openweathermap.org/data/3.0/measurements',
+        method: 'GET',
+        qs: {
+            station_id: args.id,
+            type: args.type,
+            limit: args.limit,
+            from: args.from,
+            to: args.to,
+            appid: 'weather appid'
+        },
+        json: true,
+    };
+
+    const measurements = await request(options);
+    if (!measurements) {
+        return null;
+    }
+    return measurements;
+};
+```
+
+and add a resolver for the `weatherStation` query
+
+```js
+measurementsList: (_, args, ctx) => {
+    return ctx.connectors.weatherStations.measurementsList(args);
+},
+```
+
+Open the [playground](http://localhost:4000) again and send a query for `measurementsList`
+
+```gql
+{
+  measurementsList(station_id: "weather station_id",
+  type:"h",
+  limit:100,
+  from:1573039682000,
+  to:1573041156900) {
+    type
+    date
+    station_id
+    temp {
+      max
+      min
+      average
+      weight
+    }
+  }
+}
+```
+
+But that's more data than our clients need!
+
+## Limits
+
+Let's add some limiting to our queries so the clients can specify how many results they need.
+
+Actually if you observe, in measurementsList `schema`, limit functionality is already implemented with input parameters `from` and `to`.
+
+When you request with `from` and `to` dates/timestamp, measurementsList API will return all the measuremnts fall between this bucket. 
+
