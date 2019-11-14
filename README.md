@@ -148,7 +148,7 @@ const resolvers = {
 module.exports = resolvers;
 ```
 
-Open the playground at <http://localhost:4000> and send a query for `artists`
+Open the playground at <http://localhost:4000> and send a query for `WeatherStation`
 
 ```gql
 {
@@ -247,7 +247,7 @@ const getWeatherStationsList = async () => {
         uri: 'http://api.openweathermap.org/data/3.0/stations',
         method: 'GET',
         qs: {
-            appid: '249bd6376008d0ac90213b8493209a15'
+            appid: 'weather appid'
         },
         json: true,
     };
@@ -264,14 +264,14 @@ const getWeatherStationsList = async () => {
 Now we can go back to `resolvers/index.js` and consume this connector from our `context`
 
 ```js
-artists: (_, args, ctx) => {
-    return ctx.connectors.weatherStations.artists(args);
+weatherStationsList: (_, args, ctx) => {
+    return ctx.connectors.weatherStations.weatherStationsList(args);
 },
 ```
 
 And that's it!
 
-You can open the [playground](http://localhost:4000) again and send a query for `artists`:
+You can open the [playground](http://localhost:4000) again and send a query for `WeatherStations`:
 
 ```gql
 {
