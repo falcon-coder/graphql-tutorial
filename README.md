@@ -1,4 +1,4 @@
-# 🎸 graphql-tutorial
+# graphql-tutorial
 
 For this GraphQL introduction workshop, we'll be building an API with weather data to support clients that display information about weather station, measurements, temprature etc.
 
@@ -28,7 +28,7 @@ Clone the project & `cd` into it
 
 ```bash
 $ git clone git@github.com:falcon-coder/graphql-tutorial.git
-$ cd graphql-music
+$ cd graphql-tutorial
 ```
 
 Install the dev dependencies
