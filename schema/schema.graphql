@@ -1,0 +1,12 @@
+type Query {
+    weatherStationsList: [WeatherStation]
+}
+
+type WeatherStation {
+    id: String
+    name: String
+    longitude: Float
+    latitude: Float
+    altitude: Int
+    rank: Int
+}

@@ -244,22 +244,22 @@ const request = require('request-promise');
 And let's add our first method to the `iTunes` class
 
 ```js
-const getWeatherStationsList = async () => {
-    const options = {
-        uri: 'http://api.openweathermap.org/data/3.0/stations',
-        method: 'GET',
-        qs: {
-            appid: 'weather appid'
-        },
-        json: true,
-    };
+async getWeatherStationsList() {
+        const options = {
+            uri: 'http://api.openweathermap.org/data/3.0/stations',
+            method: 'GET',
+            qs: {
+                appid: 'weather appid'
+            },
+            json: true,
+        };
 
-    const items = await request(options);
-    if (!items) {
-        return null;
-    }
+        const items = await request(options);
+        if (!items) {
+            return null;
+        }
 
-    return items;
+        return items;
 };
 ```
 
@@ -268,7 +268,7 @@ Now we can go back to `resolvers/index.js` and consume this connector from our `
 ```js
 weatherStationsList: (_, args, ctx) => {
     return ctx.connectors.weatherStations.weatherStationsList(args);
-},
+}
 ```
 
 And that's it!
