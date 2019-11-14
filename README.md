@@ -6,16 +6,18 @@ To start at the beginning of any given section, just `checkout` the branch with 
 
 ## Contents
 
-### Part 1
+### Chapter 0
 
 > Starting branch: [master](https://github.com/falcon-coder/graphql-tutorial/tree/master)
 
 * [Setup](#setup)
 * [Organize](#organize)
 
-### Part 2
+> Can find final code in branch: [Chapter0](https://github.com/falcon-coder/graphql-tutorial/tree/Chapter0)
 
-> Starting branch: [part2](https://github.com/falcon-coder/graphql-tutorial/tree/Chapter2)
+### Chapter 1
+
+> Starting branch: [Chapter1](https://github.com/falcon-coder/graphql-tutorial/tree/Chapter1)
 
 * [Creating your first Query](#creating-your-first-query)
 * [Creating your first Resolver](#creating-your-first-resolver)
