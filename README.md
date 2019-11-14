@@ -100,3 +100,190 @@ server.start(() => console.log('Server is running on http://localhost:4000'));
 ```
 
 Go ahead and start your server with `npm start`. Your server will automatically restart each time we make changes.
+
+## Creating your first Query
+
+We know our clients need `workStationsList` information, so add your first query to `schema.graphql`
+
+```gql
+type Query {
+    weatherStationsList: [WeatherStation]
+}
+```
+
+This query will allow our clients to search for weather stations and get an array of results!
+
+We need to define what an WeatherStation is, so add the `WeatherStation` type to your `schema.graphql`
+
+```gql
+type WeatherStation {
+    id: String
+    name: String
+    longitude: Float
+    latitude: Float
+    altitude: Int
+    rank: Int
+}
+```
+
+Note: These fields are determined by the needs of the clients.
+
+Awesome! But how do we actually return data?
+
+## Creating your first Resolver
+
+Add an `weatherStationsList` resolver to `resolvers/index.js`
+
+```js
+'use strict';
+
+const resolvers = {
+    Query: {
+        weatherStationsList: (root, args) => {
+            return [];
+        },
+    },
+};
+
+module.exports = resolvers;
+```
+
+Open the playground at <http://localhost:4000> and send a query for `artists`
+
+```gql
+{
+  weatherStationsList {
+    id
+    name
+    longitude
+    latitude
+    altitude
+    rank
+  }
+}
+```
+
+You'll receive empty data, but at least we have something executing!
+
+## Let's get some Context
+
+Resolvers take in 4 parameters: `root`, `args`, `context`, and `info`.
+
+* `root` the value of the previous execution level
+* `args` any field-level arguments
+* `context` an object containing any data that should be made available to all resolvers (think logging functions, session information, data sources, etc.)
+* `info` an object containing information about the query such as the selection set, the AST of the query, parent info, etc.
+
+## Creating your first Connector
+
+Most GraphQL services follow some sort of `connector` pattern. The idea here is to have a layer on top of a database/backend driver that has GraphQL-specific error handling, logging, batching, and/or caching. We'll touch more on these topics later. For now, let's just think of it as our data source.
+
+You guessed it! The connector will go on the `context`.
+
+Let's create a new folder called `connectors` with an `index.js`
+
+```js
+'use strict';
+
+const connectors = {};
+
+module.exports = connectors;
+```
+
+In our main `index.js`, let's import that file and update our server:
+
+```js
+...
+const connectors = require('./connectors');
+const context = {connectors};
+
+const server = new GraphQLServer({typeDefs, resolvers, context});
+...
+```
+
+Let's add a new file, `connectors/WeatherStations.js`
+
+```js
+'use strict';
+
+class WeatherStations {}
+
+module.exports = WeatherStations;
+```
+
+and import it into `connectors/index.js`
+
+```js
+'use strict';
+const weatherStations = require('./WeatherStations');
+
+const connectors = {
+    weatherStations: new WeatherStations(),
+};
+
+module.exports = connectors;
+```
+
+In our `WeatherStations` connector, we know we're going to need to make an HTTP request to the Weather API, so let's kill our server to install some dependencies and then start it back up
+
+```json
+        "request": "^2.85.0",
+        "request-promise": "^4.2.2"
+```
+
+Now we can make HTTP calls!
+
+At the top of `connectors/WeatherStations.js`, require our new dependency
+
+```js
+const request = require('request-promise');
+```
+
+And let's add our first method to the `iTunes` class
+
+```js
+const getWeatherStationsList = async () => {
+    const options = {
+        uri: 'http://api.openweathermap.org/data/3.0/stations',
+        method: 'GET',
+        qs: {
+            appid: '249bd6376008d0ac90213b8493209a15'
+        },
+        json: true,
+    };
+
+    const items = await request(options);
+    if (!items) {
+        return null;
+    }
+
+    return items;
+};
+```
+
+Now we can go back to `resolvers/index.js` and consume this connector from our `context`
+
+```js
+artists: (_, args, ctx) => {
+    return ctx.connectors.weatherStations.artists(args);
+},
+```
+
+And that's it!
+
+You can open the [playground](http://localhost:4000) again and send a query for `artists`:
+
+```gql
+{
+  weatherStationsList {
+    id
+    name
+    longitude
+    latitude
+    altitude
+    rank
+  }
+}
+```
+
+It works! 😎
