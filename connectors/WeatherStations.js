@@ -43,7 +43,7 @@ class WeatherStations {
             uri: 'http://api.openweathermap.org/data/3.0/measurements',
             method: 'GET',
             qs: {
-                station_id: args.id,
+                station_id: args.station_id,
                 type: args.type,
                 limit: args.limit,
                 from: args.from,
@@ -59,6 +59,30 @@ class WeatherStations {
         }
         return measurements;
     };
+
+    async addWeatherStation(args) {
+        const options = {
+            method: 'POST',
+            uri: 'http://api.openweathermap.org/data/3.0/stations',
+            qs: {
+                appid: 'your appid',
+            },
+            body: {
+                external_id: args.externalId,
+                name: args.name,
+                longitude: args.longitude,
+                latitude: args.latitude,
+                altitude: args.altitude
+            },
+            json: true,
+        };
+        const items = await request(options);
+        if (!items) {
+            return null;
+        }
+        return items;
+    };
+
 }
 
 module.exports = WeatherStations;

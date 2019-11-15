@@ -5,6 +5,10 @@ type Query {
     measurementsList(station_id: String, type: String, limit: Int, from: Float, to: Float) : [Measurement]
 }
 
+type Mutation {
+    addWeatherStation(name: String!, externalId:String!, altitude: Int, longitude: Float, latitude: Float): WeatherStation
+}
+
 type WeatherStation {
     id: String
     name: String

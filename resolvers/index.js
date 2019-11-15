@@ -22,7 +22,12 @@ const resolvers = {
         measurementList: (_, args, ctx) => {
             return ctx.connectors.weatherStations.measurementsList(ctx.request);
         }
+    },
+    Mutation: {
+        addWeatherStation: (_, args, ctx) => {
+            return ctx.connectors.weatherStations.addWeatherStation(args);
+        }
     }
-};
+}
 
 module.exports = resolvers;
