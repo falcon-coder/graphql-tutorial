@@ -414,7 +414,7 @@ and add a resolver for the `weatherStation` query
 ```js
 measurementsList: (_, args, ctx) => {
     return ctx.connectors.weatherStations.measurementsList(args);
-},
+}
 ```
 
 Open the [playground](http://localhost:4000) again and send a query for `measurementsList`
