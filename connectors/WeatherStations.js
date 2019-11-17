@@ -76,11 +76,14 @@ class WeatherStations {
             },
             json: true,
         };
-        const items = await request(options);
-        if (!items) {
-            return null;
-        }
-        return items;
+        return request(options)
+            .then(function (items) {
+                return items;
+
+            })
+            .catch(function (err) {
+                throw Object.assign(new Error(`Custom error message from GraphQL learning series : Status code was ${err.statusCode} (${err.error.message})`));
+            });
     };
 
 }
