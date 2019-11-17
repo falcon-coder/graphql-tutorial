@@ -6,7 +6,16 @@ type Query {
 }
 
 type Mutation {
-    addWeatherStation(name: String!, externalId:String!, altitude: Int, longitude: Float, latitude: Float): WeatherStation
+    # addWeatherStation(name: String!, externalId:String!, altitude: Int, longitude: Float, latitude: Float): WeatherStation
+    addWeatherStation(weatherStationRequest: WeatherStationRequest): WeatherStation
+}
+
+input WeatherStationRequest {
+    externalId: String!
+    name: String!
+    longitude: Float
+    latitude: Float
+    altitude: Int
 }
 
 type WeatherStation {

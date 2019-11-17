@@ -25,7 +25,7 @@ const resolvers = {
     },
     Mutation: {
         addWeatherStation: (_, args, ctx) => {
-            return ctx.connectors.weatherStations.addWeatherStation(args);
+            return ctx.connectors.weatherStations.addWeatherStation(args.weatherStationRequest);
         }
     }
 }
