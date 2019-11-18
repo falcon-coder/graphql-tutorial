@@ -677,9 +677,9 @@ const resolvers = {
     }
 }
 ```
-1. Run npm start command
+1. Run `npm start` command
 2. Open the playground again
-3. Request with addWeatherStation mutation
+3. Request with `addWeatherStation` mutation
 ```gql
 mutation {
   addWeatherStation(externalId: "DBL_001", 
