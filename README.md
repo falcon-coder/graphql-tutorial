@@ -1,5 +1,7 @@
 # graphql-tutorial
 
+Full Tutorial can be found at [Getting Started With GraphQL](https://falconcoder.com/2019/11/15/getting-started-with-graphql-tutorial/)
+
 For this GraphQL introduction workshop, we'll be building an API with weather data to support clients that display information about weather station, measurements, temprature etc.
 
 To start at the beginning of any given section, just `checkout` the branch with that name (i.e. `Chapter2`, `Chapter3`, etc.)
@@ -598,6 +600,8 @@ const resolvers = {
 
 It works! 😎
 
+Full Tutorial can be found at [Getting Started With GraphQL](https://falconcoder.com/2019/11/15/getting-started-with-graphql-tutorial/)
+
 ### Creating your first Mutation
 
 We know our clients need addWeatherStation support, so add your first query to schema.graphql
@@ -697,6 +701,8 @@ mutation {
 }
 ```
 It works! 😎
+
+Full Tutorial can be found at [Getting Started With GraphQL](https://falconcoder.com/2019/11/15/getting-started-with-graphql-tutorial/)
 
 ### Add input type
 
@@ -848,4 +854,4 @@ mutation {
 }
 ```
 
-
+Full Tutorial can be found at [Getting Started With GraphQL](https://falconcoder.com/2019/11/15/getting-started-with-graphql-tutorial/)
